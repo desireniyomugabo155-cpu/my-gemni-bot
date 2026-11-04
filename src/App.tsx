@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { searchAcademicPapers } from './academicSearch';
 import {
   Contact,
   Message,
@@ -165,6 +166,50 @@ export default function App() {
 
   // Send an outgoing WhatsApp message from user
   const handleSendMessage = async (text: string) => {
+  const encPayload = await encryptMessage(text);
+  const now = new Date();
+  const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  const newMessage: Message = {
+    id: `msg-${Date.now()}`,
+    chatId: selectedContact.id,
+    sender: 'user',
+    text,
+    timestamp,
+  };
+
+  // Add the new user message to the conversation state
+  setMessages((prev) => [...prev, newMessage]);
+
+  // --- ACADEMIC RESEARCH INTEGRATION START ---
+  const isResearch = text.toLowerCase().includes('research') || text.toLowerCase().includes('paper');
+
+  if (isResearch) {
+    const papers = await searchAcademicPapers(text);
+
+    const responseText = papers.length > 0
+      ? papers.map((p, i) => 
+          `**${i + 1}. ${p.title}** (${p.year || 'N/A'})\n` +
+          `*Authors:* ${p.authors.map(a => a.name).join(', ')}\n` +
+          `*Abstract:* ${p.abstract ? p.abstract.slice(0, 150) + '...' : 'No abstract available.'}\n` +
+          `[Link to Paper](${p.url})`
+        ).join('\n\n---\n\n')
+      : "No research papers found for this topic.";
+
+    const botMessage: Message = {
+      id: `msg-${Date.now() + 1}`,
+      chatId: selectedContact.id,
+      sender: 'bot',
+      text: responseText,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages((prev) => [...prev, botMessage]);
+    return; // Prevents executing standard automated responses below
+  }
+  // --- ACADEMIC RESEARCH INTEGRATION END ---
+
+  // Keep all of your existing message logic below this line...
     const encPayload = await encryptMessage(text);
     const now = new Date();
     const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
