@@ -2,6 +2,7 @@
   "name": "UR Campus Gemini Bot",
   "short_name": "GeminiBot",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#d4af37",
