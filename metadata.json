@@ -1,0 +1,6 @@
+{
+  "name": "WhatsBot Flow - WhatsApp Auto-Scheduler & Calendar Sync",
+  "description": "Intelligent WhatsApp message manager with keyword auto-response, availability checking, end-to-end encrypted messaging, and seamless Google Calendar appointment scheduling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
