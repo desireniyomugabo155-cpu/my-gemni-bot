@@ -165,7 +165,7 @@ export default function App() {
   const selectedContact = contacts.find((c) => c.id === selectedContactId) || contacts[0];
 
   // Send an outgoing WhatsApp message from user
-  const handleSendMessage = async (text: string) => {
+ const handleSendMessage = async (text: string) => {
   const encPayload = await encryptMessage(text);
   const now = new Date();
   const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -179,8 +179,7 @@ export default function App() {
   };
 
   // Add the new user message to the conversation state
-  setMessages((prev) => [...prev, newMessage]);
-
+  setMessages([...messages, newMessage]);
   // --- ACADEMIC RESEARCH INTEGRATION START ---
   const isResearch = text.toLowerCase().includes('research') || text.toLowerCase().includes('paper');
 
