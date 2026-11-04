@@ -1,0 +1,15 @@
+{
+  "name": "My Gemini Bot",
+  "short_name": "GeminiBot",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#075e54",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192.png?text=Bot",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
