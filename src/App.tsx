@@ -178,6 +178,45 @@ export default function App() {
     timestamp,
   };
 
+  // Add the user message to state
+  setMessages((prev) => [...prev, newMessage]);
+
+  // --- ACADEMIC RESEARCH INTEGRATION ---
+  const isResearch = text.toLowerCase().includes('research') || text.toLowerCase().includes('paper');
+
+  if (isResearch) {
+    const papers = await searchAcademicPapers(text);
+
+    const responseText = papers.length > 0
+      ? papers.map((p, i) => 
+          `**${i + 1}. ${p.title}** (${p.year || 'N/A'})\n` +
+          `*Authors:* ${p.authors.map(a => a.name).join(', ')}\n` +
+          `*Abstract:* ${p.abstract ? p.abstract.slice(0, 150) + '...' : 'No abstract available.'}\n` +
+          `[Link to Paper](${p.url})`
+        ).join('\n\n---\n\n')
+      : "No research papers found for this topic.";
+
+    const botMessage: Message = {
+      id: `msg-${Date.now() + 1}`,
+      chatId: selectedContact.id,
+      sender: 'bot',
+      text: responseText,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages((prev) => [...prev, botMessage]);
+    return; // Stops here so it doesn't trigger default bot replies
+  }
+
+  // --- YOUR EXISTING APP LOGIC CONTINUES BELOW ---
+  const newMessage: Message = {
+    id: `msg-${Date.now()}`,
+    chatId: selectedContact.id,
+    sender: 'user',
+    text,
+    timestamp,
+  };
+
   // Add the new user message to the conversation state
   setMessages([...messages, newMessage]);
   // --- ACADEMIC RESEARCH INTEGRATION START ---
