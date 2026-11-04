@@ -192,19 +192,21 @@ export default function App() {
           `**${i + 1}. ${p.title}** (${p.year || 'N/A'})\n` +
           `*Authors:* ${p.authors.map(a => a.name).join(', ')}\n` +
           `*Abstract:* ${p.abstract ? p.abstract.slice(0, 150) + '...' : 'No abstract available.'}\n` +
-          `[Link to Paper](${p.url})`
-        ).join('\n\n---\n\n')
-      : "No research papers found for this topic.";
+        `[Link to Paper](${p.url})`
+      ).join('\n\n---\n\n')
+    : "No research papers found for this topic.";
 
-    const botMessage: Message = {
-      id: `msg-${Date.now() + 1}`,
-      chatId: selectedContact.id,
-      sender: 'bot',
-      text: responseText,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    };
+  const botMessage: Message = {
+    id: `msg-${Date.now() + 1}`,
+    chatId: selectedContact.id,
+    sender: 'bot',
+    text: responseText,
+    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  };
 
-    setMessages((prev) => [...prev, botMessage]);
+  setMessages((prev) => [...prev, botMessage]);
+  return;
+}
     return; // Stops here so it doesn't trigger default bot replies
   }
 
